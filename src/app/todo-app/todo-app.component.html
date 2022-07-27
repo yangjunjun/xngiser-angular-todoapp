@@ -1,0 +1,39 @@
+<h1>todo app</h1>
+<div>
+  <input type="text" [(ngModel)]="title" (keyup)="handleKeyup($event, title)" />
+  <button (click)="addTodo(title)">add todo</button>
+</div>
+<ul>
+  <li *ngFor="let todo of fixedTodos">
+    <input type="checkbox" [(ngModel)]="todo.completed" />
+    <ng-container *ngIf="todo === currentEditTodo">
+      <input
+        type="text"
+        [(ngModel)]="oldEditTodo.title"
+        (blur)="(cancelEditTodo)"
+        (keyup)="handleKeyupConfirm($event)"
+      />
+    </ng-container>
+    <ng-container *ngIf="todo !== currentEditTodo">
+      {{ todo.title }}
+    </ng-container>
+    <ng-container *ngIf="todo === currentEditTodo">
+      <button (click)="cancelEditTodo()">cancel</button>
+      <button (click)="confirmEditTodo()">confirm</button>
+    </ng-container>
+    <ng-container *ngIf="todo !== currentEditTodo">
+      <button (click)="startEditTodo(todo)">edit</button>
+      <button (click)="deleteTodo(todo)">delete</button>
+    </ng-container>
+  </li>
+</ul>
+<div>
+  <button (click)="completeAll()">completeAll</button>
+  <button (click)="clearAllComplete()">clearAllComplete</button>
+  <button (click)="show('all')">all</button>
+  <button (click)="show('completed')">complete</button>
+  <button (click)="show('uncompleted')">un complete</button>
+</div>
+<div>
+  <pre>{{ todos | json }}</pre>
+</div>
