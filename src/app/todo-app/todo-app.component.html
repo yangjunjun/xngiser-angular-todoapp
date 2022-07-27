@@ -4,18 +4,18 @@
   <button (click)="addTodo(title)">add todo</button>
 </div>
 <ul>
-  <li *ngFor="let todo of fixedTodos">
+  <li *ngFor="let todo of fixedTodos; let i = index">
     <input type="checkbox" [(ngModel)]="todo.completed" />
     <ng-container *ngIf="todo === currentEditTodo">
       <input
         type="text"
         [(ngModel)]="oldEditTodo.title"
-        (blur)="(cancelEditTodo)"
+        (blur)="confirmEditTodo()"
         (keyup)="handleKeyupConfirm($event)"
       />
     </ng-container>
     <ng-container *ngIf="todo !== currentEditTodo">
-      {{ todo.title }}
+      {{ todo.id + ' | ' + todo.title }}
     </ng-container>
     <ng-container *ngIf="todo === currentEditTodo">
       <button (click)="cancelEditTodo()">cancel</button>
